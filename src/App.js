@@ -12,22 +12,24 @@ import { connect, Provider } from 'react-redux';
 import { sudokuReducer } from './model/reducer';
 import { initialState } from './model/sudoku-state';
 import { ActionType } from './model/action-type';
+import { CommandMode } from './model/command-mode';
 
 const store = createStore(sudokuReducer, initialState);
 
 const a19 = new Array(9).fill(0).map((n, i) => i + 1);
 
 const SdkAtomicSquare = props => {
-  const square = props.rows[props.row][props.col];
+  const { row, col } = props;
+  const square = props.rows[row][col];
   console.log('square', square);
 
   return (
-    <div className={'frame ' + (square.isHighlighted ? 'hightlight' : '')} onClick={console.log('click')} >
+    <div className={'frame ' + (square.isHighlighted ? 'hightlight' : '')} onClick={props.setValue.bind(undefined, row, col, 3)} >
       <div className={'value ' + (square.isOriginal ? 'is-original' : '')}>
         {square.value || ' '}
       </div>
 
-      {a19.map(n => <div key={n} className={'possible-value pos-' + n}>{n}</div>)}
+      {square.possibleValues.map(n => <div key={n} className={'possible-value pos-' + n}>{n}</div>)}
     </div>
   );
 };
@@ -38,7 +40,7 @@ const SdkMiddleSquare = props => (
       <li key={i}>
         {[0, 1, 2].map(j => {
           console.log('i=', i);
-          return <SdkAtomicSquare key={j} {...props} row={props.row + i} col={props.col + j}  />;
+          return <SdkAtomicSquare key={j} {...props} row={props.row + i} col={props.col + j} />;
         })}
       </li>
     ))}
@@ -49,7 +51,7 @@ const SdkGlobalSquare = props => (
   <ul className="global-square">
     {[0, 3, 6].map(i => (
       <li key={i}>
-        {[0, 3, 6].map(j => <SdkMiddleSquare key={j} {...props} row={i} col={j}  />)}
+        {[0, 3, 6].map(j => <SdkMiddleSquare key={j} {...props} row={i} col={j} />)}
       </li>
     ))}
   </ul>
@@ -58,6 +60,7 @@ const SdkGlobalSquare = props => (
 const SdkCommand = props => {
   const className = 'digit '
     + (props.mode === 'assistant' ? 'assistant' : '');
+  const label = props.commandMode === CommandMode.REAL ? 'REAL MODE' : 'ASSISTANT MODE';
 
   return (
     <React.Fragment>
@@ -73,7 +76,7 @@ const SdkCommand = props => {
 
       </div>
       <div>
-        <button className="real" onClick={console.log('click')}>REAL MODE</button>
+        <button className={props.commandMode} onClick={console.log('click')}>{label}</button>
         <button onClick={console.log('click')}>NEW SUDOKU</button >
       </div >
 
@@ -125,7 +128,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  // setValue: () => dispatch(() => ({ type: ActionType.INCREMENT, }))
+  setValue: (row, col, value) => dispatch({
+    type: ActionType.SET_VALUE,
+    data: { row, col, value }
+  }),
 });
 
 // note: connect is a Higher-order function
