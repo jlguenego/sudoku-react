@@ -19,11 +19,18 @@ const store = createStore(sudokuReducer, initialState);
 const a19 = new Array(9).fill(0).map((n, i) => i + 1);
 
 const SdkAtomicSquare = props => {
-  const { row, col, commandValue } = props;
+  const { row, col, commandValue, commandMode } = props;
   const square = props.rows[row][col];
 
+  function onClick() {
+    if (commandMode === CommandMode.REAL) {
+      return props.setValue.bind(undefined, row, col, commandValue);
+    }
+    return props.togglePossibleValue.bind(undefined, row, col, commandValue);
+  }
+
   return (
-    <div className={'frame ' + (square.isHighlighted ? 'hightlight' : '')} onClick={props.setValue.bind(undefined, row, col, commandValue)} >
+    <div className={'frame ' + (square.isHighlighted ? 'hightlight' : '')} onClick={onClick()} >
       <div className={'value ' + (square.isOriginal ? 'is-original' : '')}>
         {square.value || ' '}
       </div>
@@ -38,7 +45,6 @@ const SdkMiddleSquare = props => (
     {[0, 1, 2].map(i => (
       <li key={i}>
         {[0, 1, 2].map(j => {
-          console.log('i=', i);
           return <SdkAtomicSquare key={j} {...props} row={props.row + i} col={props.col + j} />;
         })}
       </li>
@@ -139,6 +145,10 @@ const mapDispatchToProps = dispatch => ({
   setCommandMode: (value) => dispatch({
     type: ActionType.SET_COMMAND_MODE,
     data: { value }
+  }),
+  togglePossibleValue: (row, col, value) => dispatch({
+    type: ActionType.TOGGLE_POSSIBLE_VALUE,
+    data: { row, col, value }
   }),
 });
 
