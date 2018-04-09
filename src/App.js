@@ -16,7 +16,6 @@ const Root = () => (
         </div>
       </div>
     </main>
-
   </React.Fragment>
 );
 
