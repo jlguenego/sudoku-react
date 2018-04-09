@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+const SdkSudoku = () => (
+  <div>SdkSudoku</div>
+);
+
+const Root = () => (
+  <React.Fragment>
+    <header>Sudoku</header>
+    <main>
+      <div class="container">
+        <h1>Sudoku</h1>
+        <div class="text-center">
+          <SdkSudoku/>
+        </div>
+      </div>
+    </main>
+
+  </React.Fragment>
+);
+
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Root />
     );
   }
 }
