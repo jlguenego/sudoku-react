@@ -6,12 +6,17 @@ import { CommandMode } from "../model/command-mode";
 import { Record, List, fromJS } from 'immutable';
 import { DifficultyEnum } from './difficulty.js';
 
+const falseArray = new Array(9).fill(false);
+
 export const SudokuState = Record({
     rows: List([]),
     commandValue: 0,
     commandMode: CommandMode.REAL,
     errors: List([]),
     solutionStr: '',
+    highlightRows: List(falseArray),
+    highlightCols: List(falseArray),
+    highlightSquare: List(falseArray),
 });
 
 
