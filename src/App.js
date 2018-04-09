@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import './App.css';
 
-const SdkGlobalSquare = () => (
-  <div>SdkGlobalSquare</div>
+const SdkMiddleSquare = props => (
+  <div>SdkMiddleSquare {props.row} {props.col}</div>
 );
+
+const SdkGlobalSquare = () => (
+  <ul>
+    {[0, 3, 6].map(i => (
+      <li key={i}>
+        {[0, 3, 6].map(j => <SdkMiddleSquare key={j} row={i} col={j} />)}
+      </li>
+    ))}
+  </ul >
+);
+
 const SdkCommand = () => (
   <div>SdkCommand</div>
 );
@@ -11,10 +22,8 @@ const SdkCommand = () => (
 const SdkSudoku = () => (
   <React.Fragment>
     <SdkGlobalSquare />
-
     <SdkCommand />
   </React.Fragment>
-
 );
 
 const Root = () => (
@@ -31,12 +40,9 @@ const Root = () => (
   </React.Fragment>
 );
 
-
 class App extends Component {
   render() {
-    return (
-      <Root />
-    );
+    return <Root />;
   }
 }
 
