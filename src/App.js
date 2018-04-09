@@ -66,7 +66,7 @@ const SdkCommand = props => {
       <div>
         {a19.map(i => (
           <button
-            className={className + (i === props.value ? 'active' : '')}
+            className={className + (i === props.commandValue ? 'active' : '')}
             key={i}
             onClick={props.setCommandValue.bind(undefined, i)}>
             {i}
