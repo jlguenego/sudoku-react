@@ -110,6 +110,9 @@ const mapStateToProps = state => {
     commandValue: state.commandValue,
     errors: state.errors.toArray(),
     rows: state.rows.toJS(),
+    highlightRows: state.highlightRows.toJS(),
+    highlightCols: state.highlightCols.toJS(),
+    highlightSquare: state.highlightSquare.toJS(),
   };
 };
 
@@ -129,6 +132,14 @@ const mapDispatchToProps = dispatch => ({
   togglePossibleValue: (row, col, value) => dispatch({
     type: ActionType.TOGGLE_POSSIBLE_VALUE,
     data: { row, col, value }
+  }),
+  highlightToggle: () => dispatch({
+    type: ActionType.HIGHLIGHT_TOGGLE,
+    data: { }
+  }),
+  highlightOn: () => dispatch({
+    type: ActionType.HIGHLIGHT_ON,
+    data: { }
   }),
 });
 

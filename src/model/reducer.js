@@ -5,6 +5,8 @@ import { set } from "./reducer/set";
 import { setCommandValue } from "./reducer/setCommandValue";
 import { togglePossibleValue } from "./reducer/PossibleValue";
 
+import { Highlight } from './reducer/Highlight';
+
 export function sudokuReducer(state = initialState, action) {
     switch (action.type) {
 
@@ -24,6 +26,13 @@ export function sudokuReducer(state = initialState, action) {
 
         case ActionType.TOGGLE_POSSIBLE_VALUE:
             return togglePossibleValue(state, action);
+
+        case ActionType.HIGHLIGHT_TOGGLE:
+            return new Highlight(state).toggle();
+
+        case ActionType.HIGHLIGHT_ON:
+            return new Highlight(state).on();
+
 
         // case ActionType.GENERATE_NEW_SUDOKU:
         //     return newSudoku(action.data.difficulty);

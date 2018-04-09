@@ -6,7 +6,8 @@ import { CommandMode } from "../model/command-mode";
 import { Record, List, fromJS } from 'immutable';
 import { DifficultyEnum } from './difficulty.js';
 
-const falseArray = new Array(9).fill(false);
+const false9 = new Array(9).fill(false);
+const false3x3 = new Array(3).fill(new Array(3).fill(false));
 
 export const SudokuState = Record({
     rows: List([]),
@@ -14,9 +15,10 @@ export const SudokuState = Record({
     commandMode: CommandMode.REAL,
     errors: List([]),
     solutionStr: '',
-    highlightRows: List(falseArray),
-    highlightCols: List(falseArray),
-    highlightSquare: List(falseArray),
+    isHighlighting: false,
+    highlightRows: List(false9),
+    highlightCols: List(false9),
+    highlightSquare: fromJS(false3x3),
 });
 
 

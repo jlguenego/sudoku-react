@@ -13,14 +13,21 @@ const SdkAtomicSquare = props => {
   }
 
   function onClick() {
-    if (commandMode === CommandMode.REAL) {
-      return props.setValue.bind(undefined, row, col, commandValue);
+    if (square.value > 0) {
+      props.setCommandValue(square.value);
+      props.highlightToggle();
+      return;
     }
-    return props.togglePossibleValue.bind(undefined, row, col, commandValue);
+    if (commandMode === CommandMode.REAL) {
+      props.setValue(row, col, commandValue);
+      props.highlightOn();
+      return;
+    }
+    props.togglePossibleValue(row, col, commandValue);
   }
 
   return (
-    <div className={'frame ' + (isHighlighted() ? 'hightlight' : '')} onClick={onClick()} >
+    <div className={'frame ' + (isHighlighted() ? 'hightlight' : '')} onClick={onClick} >
       <div className={'value ' + (square.isOriginal ? 'is-original' : '')}>
         {square.value || ' '}
       </div>
