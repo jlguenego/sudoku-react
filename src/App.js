@@ -22,6 +22,10 @@ const SdkAtomicSquare = props => {
   const { row, col, commandValue, commandMode } = props;
   const square = props.rows[row][col];
 
+  function isHighlighted() {
+    return false;
+  }
+
   function onClick() {
     if (commandMode === CommandMode.REAL) {
       return props.setValue.bind(undefined, row, col, commandValue);
@@ -30,7 +34,7 @@ const SdkAtomicSquare = props => {
   }
 
   return (
-    <div className={'frame ' + (square.isHighlighted ? 'hightlight' : '')} onClick={onClick()} >
+    <div className={'frame ' + (isHighlighted() ? 'hightlight' : '')} onClick={onClick()} >
       <div className={'value ' + (square.isOriginal ? 'is-original' : '')}>
         {square.value || ' '}
       </div>
