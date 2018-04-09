@@ -58,7 +58,7 @@ const SdkGlobalSquare = props => (
 
 const SdkCommand = props => {
   const className = 'digit '
-    + (props.mode === 'assistant' ? 'assistant' : '');
+    + (props.commandMode === 'assistant' ? 'assistant' : '');
   const label = props.commandMode === CommandMode.REAL ? 'REAL MODE' : 'ASSISTANT MODE';
   const otherMode = props.commandMode === CommandMode.REAL ? CommandMode.ASSISTANT : CommandMode.REAL;
 
