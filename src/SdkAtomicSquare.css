@@ -25,7 +25,7 @@
     color: hsl(240, 100%, 50%);
 }
 
-.frame .value .is-original {
+.frame .value.is-original {
     color: black;
 }
 

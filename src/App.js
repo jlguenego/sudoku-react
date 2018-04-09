@@ -18,12 +18,13 @@ const store = createStore(sudokuReducer, initialState);
 const a19 = new Array(9).fill(0).map((n, i) => i + 1);
 
 const SdkAtomicSquare = props => {
-
+  const square = props.rows[props.row][props.col];
+  console.log('square', square);
 
   return (
-    <div className={'frame ' + (props.isHighlighted ? 'hightlight' : '')} onClick={console.log('click')} >
-      <div className={'value ' + (props.isOriginal ? 'original' : '')}>
-        {props.value || ' '}
+    <div className={'frame ' + (square.isHighlighted ? 'hightlight' : '')} onClick={console.log('click')} >
+      <div className={'value ' + (square.isOriginal ? 'is-original' : '')}>
+        {square.value || ' '}
       </div>
 
       {a19.map(n => <div key={n} className={'possible-value pos-' + n}>{n}</div>)}
@@ -35,7 +36,10 @@ const SdkMiddleSquare = props => (
   <ul className="middle-square">
     {[0, 1, 2].map(i => (
       <li key={i}>
-        {[0, 1, 2].map(j => <SdkAtomicSquare key={j} row={props.row + i} col={props.col + j} {...props} />)}
+        {[0, 1, 2].map(j => {
+          console.log('i=', i);
+          return <SdkAtomicSquare key={j} {...props} row={props.row + i} col={props.col + j}  />;
+        })}
       </li>
     ))}
   </ul>
@@ -45,7 +49,7 @@ const SdkGlobalSquare = props => (
   <ul className="global-square">
     {[0, 3, 6].map(i => (
       <li key={i}>
-        {[0, 3, 6].map(j => <SdkMiddleSquare key={j} row={i} col={j} {...props} />)}
+        {[0, 3, 6].map(j => <SdkMiddleSquare key={j} {...props} row={i} col={j}  />)}
       </li>
     ))}
   </ul>
@@ -91,25 +95,37 @@ const SdkSudoku = props => (
   </React.Fragment>
 );
 
-const Root = props => (
-  <React.Fragment>
-    <header>Sudoku</header>
-    <main>
-      <div className="container">
-        <h1>Sudoku</h1>
-        <div className="text-center">
-          <SdkSudoku {...props} />
+const Root = props => {
+  console.log('props', props);
+  return (
+    <React.Fragment>
+      <header>Sudoku</header>
+      <main>
+        <div className="container">
+          <h1>Sudoku</h1>
+          <div className="text-center">
+            <SdkSudoku {...props} />
+          </div>
         </div>
-      </div>
-    </main>
-  </React.Fragment>
-);
+      </main>
+    </React.Fragment>
+  );
+};
 
 
 
-const mapStateToProps = state => ({ number: state.number, input: state.input });
+const mapStateToProps = state => {
+  console.log('state', state);
+  return {
+    commandMode: state.commandMode,
+    commandValue: state.commandValue,
+    errors: state.errors.toArray(),
+    rows: state.rows.toJS(),
+  };
+};
+
 const mapDispatchToProps = dispatch => ({
-  setValue: () => dispatch(() => ({ type: ActionType.INCREMENT, }))
+  // setValue: () => dispatch(() => ({ type: ActionType.INCREMENT, }))
 });
 
 // note: connect is a Higher-order function
