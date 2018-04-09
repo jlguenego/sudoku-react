@@ -1,9 +1,7 @@
-import { ImmutableSudokuState } from "../sudoku-state";
-import { SudokuAction } from "../sudoku-action";
 import { checkValue, applySudokuRules } from "../check";
 import { removePossibleValueSameSquare, removePossibleValueSameRow, removePossibleValueSameCol } from "./PossibleValue";
 
-export function set(state: ImmutableSudokuState, action: SudokuAction): ImmutableSudokuState {
+export function set(state, action) {
     const { row, col, value } = action.data;
     if (!checkValue(value)) {
         return state;

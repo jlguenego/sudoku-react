@@ -1,8 +1,6 @@
-import { ImmutableSudokuState } from "../sudoku-state";
-import { SudokuAction, SudokuActionData } from "../sudoku-action";
 import { checkValue } from "../check";
 
-export function togglePossibleValue(state: ImmutableSudokuState, action: SudokuAction): ImmutableSudokuState {
+export function togglePossibleValue(state, action) {
     const { value, row, col } = action.data;
     if (!checkValue(value)) {
         return state;
@@ -20,8 +18,8 @@ export function togglePossibleValue(state: ImmutableSudokuState, action: SudokuA
 }
 
 export function removePossibleValueSameSquare(
-    state: ImmutableSudokuState,
-    data: SudokuActionData): ImmutableSudokuState {
+    state,
+    data) {
     const { row, col, value } = data;
     const rows = new Array(3).fill(0).map((n, i) => i + 3 * Math.floor(row / 3));
     const cols = new Array(3).fill(0).map((n, i) => i + 3 * Math.floor(col / 3));
@@ -41,8 +39,8 @@ export function removePossibleValueSameSquare(
 }
 
 export function removePossibleValueSameRow(
-    state: ImmutableSudokuState,
-    data: SudokuActionData): ImmutableSudokuState {
+    state,
+    data) {
     const { row, col, value } = data;
     const cols = new Array(9).fill(0).map((n, i) => i);
     let newState = state;
@@ -59,8 +57,8 @@ export function removePossibleValueSameRow(
 }
 
 export function removePossibleValueSameCol(
-    state: ImmutableSudokuState,
-    data: SudokuActionData): ImmutableSudokuState {
+    state,
+    data) {
     const { row, col, value } = data;
     const rows = new Array(9).fill(0).map((n, i) => i);
     let newState = state;

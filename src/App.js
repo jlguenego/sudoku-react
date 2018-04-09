@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
+
 import './App.css';
 import './SdkGlobalSquare.css';
 import './SdkMiddleSquare.css';
 import './SdkAtomicSquare.css';
 import './SdkCommand.css';
+
+import { createStore } from 'redux';
+import { connect, Provider } from 'react-redux';
+
+import { sudokuReducer } from './model/reducer';
+import { initialState } from './model/sudoku-state';
+import { ActionType } from './model/action-type';
+
+const store = createStore(sudokuReducer, initialState);
 
 const a19 = new Array(9).fill(0).map((n, i) => i + 1);
 
@@ -95,13 +105,26 @@ const Root = props => (
   </React.Fragment>
 );
 
+
+
+const mapStateToProps = state => ({ number: state.number, input: state.input });
+const mapDispatchToProps = dispatch => ({
+  setValue: () => dispatch(() => ({ type: ActionType.INCREMENT, }))
+});
+
+// note: connect is a Higher-order function
+const Container = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Root);
+
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
   render() {
-    return <Root {...this.state} />;
+    return (
+      <Provider store={store}>
+        <Container />
+      </Provider>
+    )
   }
 }
 

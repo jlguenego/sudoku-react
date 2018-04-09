@@ -1,8 +1,6 @@
-import { ImmutableSudokuState } from "./sudoku-state";
-import { SudokuActionData } from "./sudoku-action";
 import { getGrid, getSquare } from "./grid";
 
-export function checkValue(value: number) {
+export function checkValue(value) {
     if (value < 0 || value > 9) {
         return false;
     }
@@ -12,8 +10,8 @@ export function checkValue(value: number) {
     return true;
 }
 
-export function applySudokuRules(state: ImmutableSudokuState, data: SudokuActionData): ImmutableSudokuState {
-    const grid: number[][] = getGrid(state);
+export function applySudokuRules(state, data) {
+    const grid = getGrid(state);
     if (checkRow(grid, data) === false) {
         return state.updateIn(['errors'], errors => errors.push('checkRow'));
     }
@@ -29,19 +27,19 @@ export function applySudokuRules(state: ImmutableSudokuState, data: SudokuAction
     return state;
 }
 
-function checkRow(grid: number[][], data: SudokuActionData): boolean {
-    const { value, row, col } = data;
+function checkRow(grid, data) {
+    const { value, row } = data;
     const sudokuRow = grid[row];
     const result = (sudokuRow.find(n => n === value) === undefined);
     return result;
 }
-function checkCol(grid: number[][], data: SudokuActionData): boolean {
-    const { value, row, col } = data;
+function checkCol(grid, data) {
+    const { value, col } = data;
     const sudokuCol = grid.map(row => row[col]);
     const result = (sudokuCol.find(n => n === value) === undefined);
     return result;
 }
-function checkSquare(grid: number[][], data: SudokuActionData): boolean {
+function checkSquare(grid, data) {
     const { value, row, col } = data;
     const sudokuSquare = getSquare(grid, row, col);
     console.log('sudokuSquare', sudokuSquare);
@@ -49,7 +47,7 @@ function checkSquare(grid: number[][], data: SudokuActionData): boolean {
     return result;
 }
 
-function checkSolution(solutionStr, data): boolean {
+function checkSolution(solutionStr, data) {
     const { value, row, col } = data;
     if (solutionStr.length !== 81) {
         return false;

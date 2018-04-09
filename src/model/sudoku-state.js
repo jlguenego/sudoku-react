@@ -1,51 +1,37 @@
 import './sudoku.js';
 
-import { Square, ImmutableSquare } from "./square";
-import { CommandMode } from "../model/command-mode.enum";
+import { Square } from "./square";
+import { CommandMode } from "../model/command-mode";
 
 import { Record, List, fromJS } from 'immutable';
-import { DifficultyEnum } from './difficulty.enum.js';
+import { DifficultyEnum } from './difficulty.js';
 
-interface SudokuStateProps {
-    rows: List<List<ImmutableSquare>>;
-    commandValue: number;
-    commandMode: CommandMode;
-    errors: List<string>;
-    solutionStr: string;
-}
-
-export type ImmutableSudokuState = Record<SudokuStateProps>;
-export type ImmutableSudokyStateFactory = Record.Factory<SudokuStateProps>;
-
-
-export const SudokuState: ImmutableSudokyStateFactory = Record({
-    rows: List<List<ImmutableSquare>>([]),
+export const SudokuState = Record({
+    rows: List([]),
     commandValue: 0,
     commandMode: CommandMode.REAL,
-    errors: List<string>([]),
+    errors: List([]),
     solutionStr: '',
 });
 
 
-function makeImmutableSudokuState(str: string, solutionStr: string): ImmutableSudokuState {
+function makeImmutableSudokuState(str, solutionStr) {
     if (!str || str.length !== 81) {
         throw new Error(`Cannot initiate from an not well formatted string: ${str}`);
     }
     const rows = [];
-    let i = 0, j = 0;
+    let j = 0;
     let row;
     for (let c of str) {
         if (j === 0) {
             row = [];
             rows.push(row);
         }
-        const d = +c;
-        const square: ImmutableSquare = new Square({ value: +c, isOriginal: (+c !== 0) });
+        const square = new Square({ value: +c, isOriginal: (+c !== 0) });
         // console.log('square', square);
         row.push(square);
         if (j === 8) {
             j = 0;
-            i++;
         } else {
             j++;
         }
@@ -55,7 +41,7 @@ function makeImmutableSudokuState(str: string, solutionStr: string): ImmutableSu
     return SudokuState({ rows: immutableRows, solutionStr });
 }
 
-export function newSudoku(difficulty: DifficultyEnum = DifficultyEnum.EASY) {
+export function newSudoku(difficulty = DifficultyEnum.EASY) {
 
     const sudoku = window['sudoku'];
 
@@ -70,5 +56,5 @@ export function newSudoku(difficulty: DifficultyEnum = DifficultyEnum.EASY) {
     return makeImmutableSudokuState(str, solutionStr);
 }
 
-export const initialState: ImmutableSudokuState = newSudoku();
+export const initialState = newSudoku();
 
