@@ -1,39 +1,59 @@
 import React, { Component } from 'react';
 import './App.css';
 
+const SdkAtomicSquare = props => {
+  const array = new Array(9).fill(0).map((n, i) => i + 1);
+
+  return (
+    <div className={'frame ' + (props.isHighlighted ? 'hightlight' : '')} onClick={console.log('click')} >
+      <div className={'value ' + (props.isOriginal ? 'original' : '')}>
+        {props.value || ' '}
+      </div>
+
+      {array.map(n => <div className={'possible-value pos-' + n}>{n}</div>)}
+    </div>
+  );
+};
+
 const SdkMiddleSquare = props => (
-  <div>SdkMiddleSquare {props.row} {props.col}</div>
+  <ul>
+    {[0, 1, 2].map(i => (
+      <li key={i}>
+        {[0, 1, 2].map(j => <SdkAtomicSquare key={j} row={props.row + i} col={props.col + j} {...props}/>)}
+      </li>
+    ))}
+  </ul>
 );
 
-const SdkGlobalSquare = () => (
+const SdkGlobalSquare = props => (
   <ul>
     {[0, 3, 6].map(i => (
       <li key={i}>
-        {[0, 3, 6].map(j => <SdkMiddleSquare key={j} row={i} col={j} />)}
+        {[0, 3, 6].map(j => <SdkMiddleSquare key={j} row={i} col={j} {...props}/>)}
       </li>
     ))}
-  </ul >
+  </ul>
 );
 
-const SdkCommand = () => (
+const SdkCommand = props => (
   <div>SdkCommand</div>
 );
 
-const SdkSudoku = () => (
+const SdkSudoku = props => (
   <React.Fragment>
-    <SdkGlobalSquare />
-    <SdkCommand />
+    <SdkGlobalSquare {...props} />
+    <SdkCommand {...props} />
   </React.Fragment>
 );
 
-const Root = () => (
+const Root = props => (
   <React.Fragment>
     <header>Sudoku</header>
     <main>
       <div class="container">
         <h1>Sudoku</h1>
         <div class="text-center">
-          <SdkSudoku />
+          <SdkSudoku {...props} />
         </div>
       </div>
     </main>
@@ -41,8 +61,12 @@ const Root = () => (
 );
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
   render() {
-    return <Root />;
+    return <Root {...this.state}/>;
   }
 }
 
