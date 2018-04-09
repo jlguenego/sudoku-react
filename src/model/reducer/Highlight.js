@@ -12,20 +12,20 @@ export class Highlight {
     }
 
     toggle() {
-        let state = this.state.set('isHighlighting', !this.state.get('isHighlighting'));
+        this.state = this.state.set('isHighlighting', !this.state.get('isHighlighting'));
         return this.refresh();
     }
 
     on() {
-        let state = this.state.set('isHighlighting', true);
+        this.state = this.state.set('isHighlighting', true);
         return this.refresh();
     }
 
     refresh() {
         const grid = getGrid(this.state);
-        let state = this.reset();
+        this.state = this.reset();
         if (this.state.get('commandValue') === 0) {
-            return state;
+            return this.state;
         }
 
         const highlightRows = false9.map(

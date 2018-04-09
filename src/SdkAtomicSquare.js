@@ -8,14 +8,23 @@ const SdkAtomicSquare = props => {
   const { row, col, commandValue, commandMode } = props;
   const square = props.rows[row][col];
 
-  function isHighlighted() {
-    return false;
-  }
+  console.log('props.isHighlighting', props.isHighlighting);
+
+  const isHighlighted = props.isHighlighting &&
+    (square.value > 0 || props.highlightRows[row] ||
+    props.highlightCols[col] ||
+    props.highlightSquare[Math.floor(row / 3)][Math.floor(col / 3)]);
 
   function onClick() {
     if (square.value > 0) {
+      if (props.commandValue === square.value) {
+        props.highlightToggle();
+        console.log('toggled');
+        return;
+      }
       props.setCommandValue(square.value);
-      props.highlightToggle();
+      props.highlightOn();
+      console.log('On');
       return;
     }
     if (commandMode === CommandMode.REAL) {
@@ -27,7 +36,7 @@ const SdkAtomicSquare = props => {
   }
 
   return (
-    <div className={'frame ' + (isHighlighted() ? 'hightlight' : '')} onClick={onClick} >
+    <div className={'frame ' + (isHighlighted ? 'highlight' : '')} onClick={onClick} >
       <div className={'value ' + (square.isOriginal ? 'is-original' : '')}>
         {square.value || ' '}
       </div>

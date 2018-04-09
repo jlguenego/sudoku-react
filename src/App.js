@@ -113,6 +113,7 @@ const mapStateToProps = state => {
     highlightRows: state.highlightRows.toJS(),
     highlightCols: state.highlightCols.toJS(),
     highlightSquare: state.highlightSquare.toJS(),
+    isHighlighting: state.isHighlighting,
   };
 };
 
