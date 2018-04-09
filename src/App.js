@@ -60,6 +60,7 @@ const SdkCommand = props => {
   const className = 'digit '
     + (props.mode === 'assistant' ? 'assistant' : '');
   const label = props.commandMode === CommandMode.REAL ? 'REAL MODE' : 'ASSISTANT MODE';
+  const otherMode = props.commandMode === CommandMode.REAL ? CommandMode.ASSISTANT : CommandMode.REAL;
 
   return (
     <React.Fragment>
@@ -75,7 +76,7 @@ const SdkCommand = props => {
 
       </div>
       <div>
-        <button className={props.commandMode} onClick={console.log('click')}>{label}</button>
+        <button className={props.commandMode} onClick={props.setCommandMode.bind(undefined, otherMode)}>{label}</button>
         <button onClick={console.log('click')}>NEW SUDOKU</button >
       </div >
 
@@ -133,6 +134,10 @@ const mapDispatchToProps = dispatch => ({
   }),
   setCommandValue: (value) => dispatch({
     type: ActionType.SET_COMMAND_VALUE,
+    data: { value }
+  }),
+  setCommandMode: (value) => dispatch({
+    type: ActionType.SET_COMMAND_MODE,
     data: { value }
   }),
 });

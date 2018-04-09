@@ -19,8 +19,8 @@ export function sudokuReducer(state = initialState, action) {
         case ActionType.SET_COMMAND_VALUE:
             return setCommandValue(state, action);
 
-        // case ActionType.SET_COMMAND_MODE:
-        //     return state.set('commandMode', action.data.value);
+        case ActionType.SET_COMMAND_MODE:
+            return state.set('commandMode', action.data.value);
 
         // case ActionType.TOGGLE_POSSIBLE_VALUE:
         //     return togglePossibleValue(state, action);
