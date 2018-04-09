@@ -19,12 +19,11 @@ const store = createStore(sudokuReducer, initialState);
 const a19 = new Array(9).fill(0).map((n, i) => i + 1);
 
 const SdkAtomicSquare = props => {
-  const { row, col } = props;
+  const { row, col, commandValue } = props;
   const square = props.rows[row][col];
-  console.log('square', square);
 
   return (
-    <div className={'frame ' + (square.isHighlighted ? 'hightlight' : '')} onClick={props.setValue.bind(undefined, row, col, 3)} >
+    <div className={'frame ' + (square.isHighlighted ? 'hightlight' : '')} onClick={props.setValue.bind(undefined, row, col, commandValue)} >
       <div className={'value ' + (square.isOriginal ? 'is-original' : '')}>
         {square.value || ' '}
       </div>
@@ -69,7 +68,7 @@ const SdkCommand = props => {
           <button
             className={className + (i === props.value ? 'active' : '')}
             key={i}
-            onClick={console.log('click')}>
+            onClick={props.setCommandValue.bind(undefined, i)}>
             {i}
           </button>
         ))}
@@ -131,6 +130,10 @@ const mapDispatchToProps = dispatch => ({
   setValue: (row, col, value) => dispatch({
     type: ActionType.SET_VALUE,
     data: { row, col, value }
+  }),
+  setCommandValue: (value) => dispatch({
+    type: ActionType.SET_COMMAND_VALUE,
+    data: { value }
   }),
 });
 
