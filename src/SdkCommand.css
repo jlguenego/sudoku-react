@@ -1,0 +1,24 @@
+button {
+    margin: 0.3em;
+    padding: 0.5em 0.9em;
+    border: 1px solid black;
+    background: #eee;
+    font-size: 1.5em;
+}
+
+button:hover {
+    background: #ddd;
+}
+
+button.active {
+    background: hsl(240, 100%, 90%);
+}
+
+.assistant {
+    background: #fff;
+    
+}
+
+.assistant:hover {
+    background: #eee;
+}

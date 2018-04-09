@@ -3,6 +3,7 @@ import './App.css';
 import './SdkGlobalSquare.css';
 import './SdkMiddleSquare.css';
 import './SdkAtomicSquare.css';
+import './SdkCommand.css';
 
 const a19 = new Array(9).fill(0).map((n, i) => i + 1);
 
@@ -15,7 +16,7 @@ const SdkAtomicSquare = props => {
         {props.value || ' '}
       </div>
 
-      {a19.map(n => <div className={'possible-value pos-' + n}>{n}</div>)}
+      {a19.map(n => <div key={n} className={'possible-value pos-' + n}>{n}</div>)}
     </div>
   );
 };
@@ -48,17 +49,17 @@ const SdkCommand = props => {
     <React.Fragment>
       <div>
         {a19.map(i => (
-        <button 
-        className={className + (i === props.value ? 'active' : '')} 
-        key={i} 
-        onClick={console.log('click')}>
-        { i }
-        </button>
-      ))}
+          <button
+            className={className + (i === props.value ? 'active' : '')}
+            key={i}
+            onClick={console.log('click')}>
+            {i}
+          </button>
+        ))}
 
       </div>
       <div>
-        <button class="real" onClick={console.log('click')}>REAL MODE</button>
+        <button className="real" onClick={console.log('click')}>REAL MODE</button>
         <button onClick={console.log('click')}>NEW SUDOKU</button >
       </div >
 
@@ -84,9 +85,9 @@ const Root = props => (
   <React.Fragment>
     <header>Sudoku</header>
     <main>
-      <div class="container">
+      <div className="container">
         <h1>Sudoku</h1>
-        <div class="text-center">
+        <div className="text-center">
           <SdkSudoku {...props} />
         </div>
       </div>
