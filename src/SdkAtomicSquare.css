@@ -1,0 +1,84 @@
+.frame {
+    position: relative;
+    width: 3em;
+    height: 3em;
+    background: #ddd;
+    margin: 0.5px;
+    cursor: pointer;
+}
+
+.frame.highlight {
+    background: #ccc;
+}
+
+.frame .value {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    line-height: 110%;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: hsl(240, 100%, 50%);
+}
+
+.frame .value .is-original {
+    color: black;
+}
+
+.possible-value {
+    position: absolute;
+    font-size: 0.7em;
+    line-height: 100%;
+    width: 33%;
+    height: 33%;
+    color: hsl(240, 100%, 50%);
+}
+
+.pos-1 {
+    top: 0%;
+    left: 0%;
+}
+
+.pos-2 {
+    top: 0%;
+    left: 33%;
+}
+
+.pos-3 {
+    top: 0%;
+    left: 66%;
+}
+
+.pos-4 {
+    top: 33%;
+    left: 0%;
+}
+
+.pos-5 {
+    top: 33%;
+    left: 33%;
+}
+
+.pos-6 {
+    top: 33%;
+    left: 66%;
+}
+
+.pos-7 {
+    top: 66%;
+    left: 0%;
+}
+
+.pos-8 {
+    top: 66%;
+    left: 33%;
+}
+
+.pos-9 {
+    top: 66%;
+    left: 66%;
+}

@@ -1,0 +1,11 @@
+ul.global-square {
+    display: inline-flex;
+    flex-flow: column nowrap;
+    background: black;
+    padding: 1px;
+}
+
+ul.global-square>li {
+    display: flex;
+    flex-flow: row nowrap;
+}

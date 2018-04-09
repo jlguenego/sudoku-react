@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
+import './SdkGlobalSquare.css';
+import './SdkMiddleSquare.css';
+import './SdkAtomicSquare.css';
 
 const SdkAtomicSquare = props => {
   const array = new Array(9).fill(0).map((n, i) => i + 1);
@@ -16,7 +19,7 @@ const SdkAtomicSquare = props => {
 };
 
 const SdkMiddleSquare = props => (
-  <ul>
+  <ul className="middle-square">
     {[0, 1, 2].map(i => (
       <li key={i}>
         {[0, 1, 2].map(j => <SdkAtomicSquare key={j} row={props.row + i} col={props.col + j} {...props}/>)}
@@ -26,7 +29,7 @@ const SdkMiddleSquare = props => (
 );
 
 const SdkGlobalSquare = props => (
-  <ul>
+  <ul className="global-square">
     {[0, 3, 6].map(i => (
       <li key={i}>
         {[0, 3, 6].map(j => <SdkMiddleSquare key={j} row={i} col={j} {...props}/>)}

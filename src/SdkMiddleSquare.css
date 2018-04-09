@@ -1,0 +1,11 @@
+ul.middle-square {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 0;
+    margin: 1px;
+}
+
+ul.middle-square>li {
+    display: flex;
+    flex-flow: row nowrap;
+}
