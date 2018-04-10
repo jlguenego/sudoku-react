@@ -124,9 +124,9 @@ class SudokuSolver {
             strategy: 'find-all',
             max: 2,
             length: 81,
-            pop: (possibilities) => {
-                return possibilities.shift();
-            },
+            // pop: (possibilities) => {
+            //     return possibilities.shift();
+            // },
         };
         const result = backtracker(config2).length === 1;
         return result;
