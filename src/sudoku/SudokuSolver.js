@@ -83,6 +83,9 @@ class SudokuSolver {
                 const { x, y } = getXY(i);
                 return checkGrid(solution, x, y);
             },
+            pop: (possibilities) => {
+                return popRand(possibilities);
+            },
             length: 81,
         };
         return SudokuSolver.backtracker(config);
@@ -110,7 +113,7 @@ class SudokuSolver {
                 continue;
             }
 
-            let n = popRand(possibilities);
+            let n = config.pop(possibilities);
             config.setSolution(solution, i, n);
 
             const status = config.checkSolution(solution, i);
