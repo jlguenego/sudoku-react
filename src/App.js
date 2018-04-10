@@ -16,6 +16,8 @@ import { CommandMode } from './model/command-mode';
 
 import SdkAtomicSquare from './SdkAtomicSquare';
 
+import { getGrid } from './model/grid';
+
 const store = createStore(sudokuReducer, initialState);
 
 const a19 = new Array(9).fill(0).map((n, i) => i + 1);
@@ -77,12 +79,26 @@ const SdkCommand = props => {
   );
 };
 
-const SdkSudoku = props => (
-  <React.Fragment>
-    <SdkGlobalSquare {...props} />
-    <SdkCommand {...props} />
-  </React.Fragment>
-);
+class SdkSudoku extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.isFinished = false;
+  }
+
+  render() {
+    if (this.props.isFinished && this.isFinished === false) {
+      window.alert('Congratulations! Finished!');
+      this.isFinished = true;
+    }
+    return (
+      <React.Fragment>
+        <SdkGlobalSquare {...this.props} />
+        <SdkCommand {...this.props} />
+      </React.Fragment>
+    );
+  }
+}
 
 const Root = props => {
   console.log('props', props);
@@ -101,10 +117,13 @@ const Root = props => {
   );
 };
 
-
-
 const mapStateToProps = state => {
   console.log('state', state);
+  const grid = getGrid(state);
+  let isFinished = false;
+  if (grid.map(r => r.join('')).join('').indexOf('0') === -1) {
+    isFinished = true;
+  }
   return {
     commandMode: state.commandMode,
     commandValue: state.commandValue,
@@ -114,6 +133,7 @@ const mapStateToProps = state => {
     highlightCols: state.highlightCols.toJS(),
     highlightSquare: state.highlightSquare.toJS(),
     isHighlighting: state.isHighlighting,
+    isFinished: isFinished
   };
 };
 
@@ -136,11 +156,11 @@ const mapDispatchToProps = dispatch => ({
   }),
   highlightToggle: () => dispatch({
     type: ActionType.HIGHLIGHT_TOGGLE,
-    data: { }
+    data: {}
   }),
   highlightOn: () => dispatch({
     type: ActionType.HIGHLIGHT_ON,
-    data: { }
+    data: {}
   }),
 });
 
