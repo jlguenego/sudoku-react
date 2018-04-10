@@ -60,35 +60,36 @@ class SudokuSolver {
 
     static generate() {
         const config = {
-            initSolution: initGrid,
+            getSolutionStructure: initGrid,
+            universe: new Array(9).fill(0).map(() => new Array(9).fill(0).map(a19)),
         };
         return SudokuSolver.backtracker(config);
     }
 
     static backtracker(config) {
         console.time('backtracking');
-        const grid = config.initSolution();
+        const solution = config.getSolutionStructure();
 
         let i = 0;
 
-        let includes = new Array(9).fill(0).map(() => new Array(9).fill(0).map(a19));
+        let universe = config.universe;
         while (true) {
             if (i === -1) {
                 throw new Error('it seems that the backtracking cannot find a solution.');
             }
 
             const { x, y } = getXY(i);
-            if (includes[x][y].length === 0) {
-                grid[x][y] = 0;
-                includes[x][y] = a19();
+            if (universe[x][y].length === 0) {
+                solution[x][y] = 0;
+                universe[x][y] = a19();
                 i--;
                 continue;
             }
 
-            let n = popRand(includes[x][y]);
-            grid[x][y] = n;
+            let n = popRand(universe[x][y]);
+            solution[x][y] = n;
 
-            const status = checkGrid(grid, x, y);
+            const status = checkGrid(solution, x, y);
             if (status) {
                 i++;
             } else {
@@ -99,7 +100,7 @@ class SudokuSolver {
             }
         }
         console.timeEnd('backtracking');
-        return grid;
+        return solution;
     }
 }
 
