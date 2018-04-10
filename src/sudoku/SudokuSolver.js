@@ -85,11 +85,10 @@ const config = {
     length: 81,
 };
 
-
-
 class SudokuSolver {
 
     static generate() {
+        config.universe = new Array(9).fill(0).map(() => new Array(9).fill(0).map(a19));
         return backtracker(config);
     }
 
@@ -142,7 +141,6 @@ class SudokuSolver {
 
 
 }
-
 
 module.exports = SudokuSolver;
 

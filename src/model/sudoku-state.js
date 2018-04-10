@@ -1,5 +1,4 @@
-import './sudoku.js';
-import { SudokuSolver } from '../sudoku/SudokuSolver';
+import SudokuSolver from '../sudoku/SudokuSolver';
 
 import { Square } from "./square";
 import { CommandMode } from "../model/command-mode";
@@ -51,9 +50,11 @@ function makeImmutableSudokuState(str, solutionStr) {
 
 export function newSudoku(difficulty = DifficultyEnum.EASY) {
 
-
+    console.log('starting generating new sudoku');
     const grid1 = SudokuSolver.generate();
-    const grid2 = SudokuSolver.carve(grid1, 30);
+    console.log('carving sudoku');
+    const grid2 = SudokuSolver.carve(grid1, 50);
+    console.log('sudoku generated.');
 
     const solutionStr = grid1.map(n => n.join('')).join('');
     const str = grid2.map(n => n.join('')).join('');
