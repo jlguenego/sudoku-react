@@ -41,7 +41,7 @@ export function removePossibleValueSameSquare(
 export function removePossibleValueSameRow(
     state,
     data) {
-    const { row, col, value } = data;
+    const { row, value } = data;
     const cols = new Array(9).fill(0).map((n, i) => i);
     let newState = state;
     cols.forEach(c => {
@@ -59,7 +59,7 @@ export function removePossibleValueSameRow(
 export function removePossibleValueSameCol(
     state,
     data) {
-    const { row, col, value } = data;
+    const { col, value } = data;
     const rows = new Array(9).fill(0).map((n, i) => i);
     let newState = state;
     rows.forEach(r => {

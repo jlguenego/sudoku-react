@@ -60,6 +60,11 @@ const SdkCommand = props => {
     props.newSudoku(select.value);
   }
 
+  function log() {
+    const str = props.grid.map(r => r.join('')).join('');
+    console.log('solution', str);
+  }
+
   return (
     <React.Fragment>
       <div>
@@ -78,7 +83,7 @@ const SdkCommand = props => {
         <button onClick={newSudoku}>NEW SUDOKU</button >
       </div >
       {JSON.stringify(props.errors)}
-      <button onClick={console.log('click')}>Log</button>
+      <button onClick={log}>Log</button>
       <select ref={ref} name="difficulty">
         <option value="0">Easy</option>
         <option value="1">Medium</option>
@@ -135,6 +140,7 @@ const mapStateToProps = state => {
     isFinished = true;
   }
   return {
+    grid,
     commandMode: state.commandMode,
     commandValue: state.commandValue,
     errors: state.errors.toArray(),

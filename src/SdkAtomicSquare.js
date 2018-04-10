@@ -1,8 +1,6 @@
 import './SdkAtomicSquare.css';
-import React, { Component } from 'react';
+import React from 'react';
 import { CommandMode } from './model/command-mode';
-
-const a19 = new Array(9).fill(0).map((n, i) => i + 1);
 
 const SdkAtomicSquare = props => {
   const { row, col, commandValue, commandMode } = props;

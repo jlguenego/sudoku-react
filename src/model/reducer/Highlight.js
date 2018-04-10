@@ -1,5 +1,4 @@
 import { isSquareContaining, getGrid } from '../grid';
-import { fromJS, List } from 'immutable';
 
 const false9 = new Array(9).fill(false);
 const false3x3 = new Array(3).fill(new Array(3).fill(false));
