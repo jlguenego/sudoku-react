@@ -1,20 +1,27 @@
-const a19 = new Array(9).fill(0).map((n, i) => i + 1);
+const a19 = () => new Array(9).fill(0).map((n, i) => i + 1);
 
-function rand(includes) {
-    if (includes === undefined) {
-        includes = a19;
-    }
+function popRand(includes) {
     if (includes.length === 0) {
-        throw new Error('cannot have includes as empty array', includes);
+        throw new Error('cannot pop from an empty array', includes);
     }
     const index = Math.floor(Math.random() * includes.length);
     const result = includes[index];
+    includes.splice(index, 1);
     return result;
 }
 
 function initGrid() {
     return new Array(9).fill(0).map(() => new Array(9).fill(0));
 }
+
+// function generate19rand() {
+//     const a = a19();
+//     const result = [];
+//     while (a.length) {
+//         const n = rand(a);
+
+//     }
+// }
 
 function getXY(n) {
     return {
@@ -32,7 +39,7 @@ function makeRandomGrid(grid) {
 }
 
 function checkGrid(grid, x, y) {
-    return checkRow(grid, x, y) && checkCol(grid, x, y);
+    return checkRow(grid, x, y) && checkCol(grid, x, y) && checkSquare(grid, x, y);
 }
 
 function checkRow(grid, x, y) {
@@ -44,35 +51,50 @@ function checkCol(grid, x, y) {
     return column.indexOf(grid[x][y]) === x;
 }
 
+function checkSquare(grid, x, y) {
+    const n = grid[x][y];
+    const i = Math.floor(x / 3);
+    const j = Math.floor(y / 3);
+    const square = grid.slice(i * 3, i * 3 + 3).map(row => row.slice(j*3, j*3+3));
+    // console.log('square', square);
+    square[x % 3][y % 3] = 0;
+    const flat = square.reduce((acc, row) => acc.concat(row), []);
+    return flat.indexOf(n) === -1;
+}
+
 
 
 class SudokuSolver {
 
     static generate() {
+        console.time('generate');
         const grid = initGrid();
 
         let i = 0;
 
-        let includes = new Array(9).fill(0).map((n, i) => i + 1);
+        let includes = new Array(9).fill(0).map(() => new Array(9).fill(0).map(a19));
         while (true) {
-            let n = rand(includes);
-            const { x, y } = getXY(i);
-            console.log('n', n);
-            if (n === undefined) {
-                throw new Error();
+            // console.log('i', i);
+            if (i === -1) {
+                throw new Error('it seems that the backtracking cannot find a solution.');
             }
+
+            const { x, y } = getXY(i);
+            if (includes[x][y].length === 0) {
+                grid[x][y] = 0;
+                includes[x][y] = a19();
+                i--;
+                continue;
+            }
+
+
+            let n = popRand(includes[x][y]);
             grid[x][y] = n;
-            console.log('grid', grid);
+            
             const status = checkGrid(grid, x, y);
             if (status) {
-                includes = new Array(9).fill(0).map((n, i) => i + 1);
                 i++;
             } else {
-                includes.splice(includes.indexOf(n), 1);
-                if (includes.length === 0) {
-                    grid[x][y] = 0;
-                    i--;
-                }
                 continue;
             }
             if (i === 81) {
@@ -81,6 +103,8 @@ class SudokuSolver {
         }
 
         console.log('grid', grid);
+        console.timeEnd('generate');
+        
     }
 }
 
