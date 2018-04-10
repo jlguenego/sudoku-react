@@ -53,7 +53,7 @@ module.exports = function backtracker(config) {
         return solution;
     }
     if (config.strategy === 'find-all') {
-        console.log('exit with %d solutions', solutions.length, solutions);
+        // console.log('exit with %d solutions', solutions.length, solutions);
         return solutions;
     }
 }

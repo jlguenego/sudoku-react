@@ -1,4 +1,5 @@
 const backtracker = require('./backtracker');
+const HumanSolver = require('./HumanSolver');
 
 const a19 = () => new Array(9).fill(0).map((n, i) => i + 1);
 
@@ -98,16 +99,16 @@ class SudokuSolver {
             g = JSON.parse(JSON.stringify(grid));
             const array = new Array(81).fill(0).map((n, i) => ({ r: Math.floor(i / 9), c: i % 9 }));
             for (let i = 0; i < total; i++) {
-                const { r, c} = popRand(array);
+                const { r, c } = popRand(array);
                 g[r][c] = 0;
             }
-            console.log('g', g);
+            // console.log('g', g);
             if (SudokuSolver.checkOneSolution(g)) {
                 break;
             }
         }
         return g;
-        
+
     }
 
     static checkOneSolution(grid) {
@@ -118,6 +119,7 @@ class SudokuSolver {
             }
             return [col];
         }));
+        SudokuSolver.restrict(universe);
         const config2 = {
             ...config,
             universe,
@@ -132,11 +134,15 @@ class SudokuSolver {
         return result;
     }
 
+    static restrict(universe) {
+        HumanSolver.removeRowDuplicate(universe);
+        HumanSolver.removeColDuplicate(universe);
+        HumanSolver.removeSquareDuplicate(universe);
+    }
+
 
 }
 
 
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = SudokuSolver;
-}
+module.exports = SudokuSolver;
 
