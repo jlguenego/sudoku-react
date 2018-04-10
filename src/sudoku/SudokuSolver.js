@@ -86,7 +86,7 @@ const config = {
 
 
 
-class SudokuSolver {
+export class SudokuSolver {
 
     static generate() {
         return backtracker(config);
@@ -140,11 +140,8 @@ class SudokuSolver {
 
 }
 
-console.time('sudoku');
 
-let grid = SudokuSolver.generate();
-console.log('grid', grid);
-grid = SudokuSolver.carve(grid, 30);
-console.log('grid', grid);
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = SudokuSolver;
+}
 
-console.timeEnd('sudoku');
