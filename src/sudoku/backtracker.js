@@ -1,5 +1,4 @@
 module.exports = function backtracker(config) {
-    console.time('backtracking');
     const solutions = [];
     const solution = config.getSolutionStructure();
 
@@ -43,18 +42,17 @@ module.exports = function backtracker(config) {
                 if (solutions.length >= config.max) {
                     break;
                 }
-                console.log('keep going');
                 i--;
                 continue;
             }
 
         }
     }
-    console.timeEnd('backtracking');
     if (config.strategy === 'find-first') {
         return solution;
     }
     if (config.strategy === 'find-all') {
+        console.log('exit');
         return solutions;
     }
 }

@@ -99,16 +99,17 @@ class SudokuSolver {
         while (i < total) {
             r = rand();
             c = rand();
+            console.log('r c', r, c, g[r][c]);
             if (g[r][c] > 0) {
                 const n = g[r][c];
                 g[r][c] = 0;
                 if (SudokuSolver.checkOneSolution(g)) {
-                    g = JSON.parse(JSON.stringify(g));
-                    console.log('i', i);
+                    console.log('g', g);
                     i++;
-                } else {
-                    g[r][c] = n;
+                    continue;
                 }
+                g[r][c] = n;
+
             };
         }
         return g;
@@ -128,14 +129,22 @@ class SudokuSolver {
             strategy: 'find-all',
             max: 2,
             length: 81,
+            pop: (possibilities) => {
+                return possibilities.shift();
+            },
         };
-        return backtracker(config2).length === 1;
+        const result = backtracker(config2).length === 1;
+        return result;
     }
 
 
 }
 
+console.time('sudoku');
+
 let grid = SudokuSolver.generate();
 console.log('grid', grid);
-grid = SudokuSolver.carve(grid, 10);
+grid = SudokuSolver.carve(grid, 30);
 console.log('grid', grid);
+
+console.timeEnd('sudoku');
