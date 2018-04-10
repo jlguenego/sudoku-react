@@ -59,8 +59,15 @@ function checkSquare(grid, x, y) {
 class SudokuSolver {
 
     static generate() {
-        console.time('generate');
-        const grid = initGrid();
+        const config = {
+            initSolution: initGrid,
+        };
+        return SudokuSolver.backtracker(config);
+    }
+
+    static backtracker(config) {
+        console.time('backtracking');
+        const grid = config.initSolution();
 
         let i = 0;
 
@@ -91,11 +98,10 @@ class SudokuSolver {
                 break;
             }
         }
-
-        console.log('grid', grid);
-        console.timeEnd('generate');
-
+        console.timeEnd('backtracking');
+        return grid;
     }
 }
 
-SudokuSolver.generate();
+const grid = SudokuSolver.generate();
+console.log('grid', grid);
