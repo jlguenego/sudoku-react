@@ -58,10 +58,10 @@ const config = {
         const { x, y } = getXY(i);
         return universe[x][y];
     },
-    resetPossibilities: (possibilities) => {
-        for (let i = 0; i < 9; i++) {
-            possibilities.push(i + 1);
-        }
+    resetPossibilities: (possibilities, i, universeCopy) => {
+        const { x, y } = getXY(i);
+        const origPossibilities = universeCopy[x][y];
+        origPossibilities.forEach(n => possibilities.push(n));
     },
     resetSolution: (solution, i) => {
         const { x, y } = getXY(i);
@@ -86,33 +86,28 @@ const config = {
 
 
 
-export class SudokuSolver {
+class SudokuSolver {
 
     static generate() {
         return backtracker(config);
     }
 
     static carve(grid, total) {
-        let g = JSON.parse(JSON.stringify(grid));
-        let i = 0;
-        let r, c;
-        while (i < total) {
-            r = rand();
-            c = rand();
-            console.log('r c', r, c, g[r][c]);
-            if (g[r][c] > 0) {
-                const n = g[r][c];
+        let g;
+        while (true) {
+            g = JSON.parse(JSON.stringify(grid));
+            const array = new Array(81).fill(0).map((n, i) => ({ r: Math.floor(i / 9), c: i % 9 }));
+            for (let i = 0; i < total; i++) {
+                const { r, c} = popRand(array);
                 g[r][c] = 0;
-                if (SudokuSolver.checkOneSolution(g)) {
-                    console.log('g', g);
-                    i++;
-                    continue;
-                }
-                g[r][c] = n;
-
-            };
+            }
+            console.log('g', g);
+            if (SudokuSolver.checkOneSolution(g)) {
+                break;
+            }
         }
         return g;
+        
     }
 
     static checkOneSolution(grid) {

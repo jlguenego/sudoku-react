@@ -5,6 +5,7 @@ module.exports = function backtracker(config) {
     let i = 0;
 
     let universe = config.universe;
+    let universeCopy = JSON.parse(JSON.stringify(config.universe));
     while (true) {
         if (i === -1) {
             if (config.strategy === 'find-all') {
@@ -18,7 +19,7 @@ module.exports = function backtracker(config) {
 
         if (possibilities.length === 0) {
             config.resetSolution(solution, i);
-            config.resetPossibilities(possibilities);
+            config.resetPossibilities(possibilities, i, universeCopy);
             i--;
             continue;
         }
@@ -52,7 +53,7 @@ module.exports = function backtracker(config) {
         return solution;
     }
     if (config.strategy === 'find-all') {
-        console.log('exit');
+        console.log('exit with %d solutions', solutions.length, solutions);
         return solutions;
     }
 }
