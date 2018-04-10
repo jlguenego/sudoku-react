@@ -50,10 +50,21 @@ function makeImmutableSudokuState(str, solutionStr) {
 
 export function newSudoku(difficulty = DifficultyEnum.EASY) {
 
-    console.log('starting generating new sudoku');
+    let n = 30;
+
+    if (difficulty == DifficultyEnum.MEDIUM) {
+        n = 40;
+    }
+    if (difficulty == DifficultyEnum.HARD) {
+        n = 45;
+    }
+
+
+    console.log('hard', DifficultyEnum.HARD);
+    console.log('starting generating new sudoku', n, difficulty);
     const grid1 = SudokuSolver.generate();
     console.log('carving sudoku');
-    const grid2 = SudokuSolver.carve(grid1, 50);
+    const grid2 = SudokuSolver.carve(grid1, n);
     console.log('sudoku generated.');
 
     const solutionStr = grid1.map(n => n.join('')).join('');
