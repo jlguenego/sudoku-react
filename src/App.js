@@ -102,6 +102,9 @@ class SdkSudoku extends React.Component {
   }
 
   render() {
+    if (!this.props.isFinished) {
+      this.isFinished = false;
+    }
     if (this.props.isFinished && this.isFinished === false) {
       window.alert('Congratulations! Finished!');
       this.isFinished = true;
