@@ -12,6 +12,10 @@ function popRand(array) {
     return result;
 }
 
+function rand() {
+    return Math.floor(Math.random() * 9);
+}
+
 function initGrid() {
     return new Array(9).fill(0).map(() => new Array(9).fill(0));
 }
@@ -62,7 +66,7 @@ class SudokuSolver {
             },
             resetPossibilities: (possibilities) => {
                 for (let i = 0; i < 9; i++) {
-                    possibilities.push(i+1);
+                    possibilities.push(i + 1);
                 }
             },
             resetSolution: (solution, i) => {
@@ -88,8 +92,75 @@ class SudokuSolver {
         return backtracker(config);
     }
 
-    
+    static carve(grid, total) {
+        let g = JSON.parse(JSON.stringify(grid));
+        let i = 0;
+        let r, c;
+        while (i < total) {
+            r = rand();
+            c = rand();
+            if (g[r][c] > 0) {
+                const n = g[r][c];
+                g[r][c] = 0;
+                if (SudokuSolver.checkOneSolution(g)) {
+                    g = JSON.parse(JSON.stringify(g));
+                    console.log('i', i);
+                    i++;
+                } else {
+                    g[r][c] = n;
+                }
+            };
+        }
+        return g;
+    }
+
+    static checkOneSolution(grid) {
+
+        const universe = grid.map(row => row.map(col => {
+            if (col === 0) {
+                return new Array(9).fill(0).map((n, i) => i + 1);
+            }
+            return [col];
+        }));
+        const config = {
+            getSolutionStructure: initGrid,
+            universe,
+            getPossibilities: (universe, i) => {
+                const { x, y } = getXY(i);
+                return universe[x][y];
+            },
+            resetPossibilities: (possibilities) => {
+                for (let i = 0; i < 9; i++) {
+                    possibilities.push(i + 1);
+                }
+            },
+            resetSolution: (solution, i) => {
+                const { x, y } = getXY(i);
+                solution[x][y] = 0;
+            },
+            setSolution: (solution, i, n) => {
+                const { x, y } = getXY(i);
+                solution[x][y] = n;
+            },
+            checkSolution: (solution, i) => {
+                const { x, y } = getXY(i);
+                return checkGrid(solution, x, y);
+            },
+            pop: (possibilities) => {
+                return popRand(possibilities);
+                // return possibilities.shift();
+            },
+            strategy: 'find-all',
+            max: 2,
+            length: 81,
+        };
+        return backtracker(config).length === 1;
+    }
+
+
 }
 
-const grid = SudokuSolver.generate();
+let grid = SudokuSolver.generate();
+console.log('grid', grid);
+grid = SudokuSolver.carve(grid, 10);
 console.log('grid', grid);

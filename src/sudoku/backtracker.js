@@ -8,6 +8,10 @@ module.exports = function backtracker(config) {
     let universe = config.universe;
     while (true) {
         if (i === -1) {
+            if (config.strategy === 'find-all') {
+                console.log('Solutions found: ', solutions.length);
+                break;
+            }
             throw new Error('it seems that the backtracking cannot find a solution.');
         }
 
