@@ -6,6 +6,7 @@ import { setCommandValue } from "./reducer/setCommandValue";
 import { togglePossibleValue } from "./reducer/PossibleValue";
 
 import { Highlight } from './reducer/Highlight';
+import { newSudoku } from './sudoku-state';
 
 export function sudokuReducer(state = initialState, action) {
     switch (action.type) {
@@ -33,9 +34,8 @@ export function sudokuReducer(state = initialState, action) {
         case ActionType.HIGHLIGHT_ON:
             return new Highlight(state).on();
 
-
-        // case ActionType.GENERATE_NEW_SUDOKU:
-        //     return newSudoku(action.data.difficulty);
+        case ActionType.GENERATE_NEW_SUDOKU:
+            return newSudoku(action.data.difficulty);
 
         default:
             return state;

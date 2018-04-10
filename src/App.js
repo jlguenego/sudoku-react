@@ -50,6 +50,10 @@ const SdkCommand = props => {
   const label = props.commandMode === CommandMode.REAL ? 'REAL MODE' : 'ASSISTANT MODE';
   const otherMode = props.commandMode === CommandMode.REAL ? CommandMode.ASSISTANT : CommandMode.REAL;
 
+  function newSudoku() {
+    return props.newSudoku.bind(undefined, select.value);
+  }
+
   return (
     <React.Fragment>
       <div>
@@ -65,11 +69,11 @@ const SdkCommand = props => {
       </div>
       <div>
         <button className={props.commandMode} onClick={props.setCommandMode.bind(undefined, otherMode)}>{label}</button>
-        <button onClick={console.log('click')}>NEW SUDOKU</button >
+        <button onClick={newSudoku}>NEW SUDOKU</button >
       </div >
       {JSON.stringify(props.errors)}
       <button onClick={console.log('click')}>Log</button>
-      <select name="difficulty">
+      <select ref={select} name="difficulty">
         <option value="0">Easy</option>
         <option value="1">Medium</option>
         <option value="2">Hard</option>
@@ -161,6 +165,10 @@ const mapDispatchToProps = dispatch => ({
   highlightOn: () => dispatch({
     type: ActionType.HIGHLIGHT_ON,
     data: {}
+  }),
+  newSudoku: (difficulty) => dispatch({
+    type: ActionType.GENERATE_NEW_SUDOKU,
+    data: {difficulty}
   }),
 });
 
