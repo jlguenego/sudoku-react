@@ -62,6 +62,28 @@ class SudokuSolver {
         const config = {
             getSolutionStructure: initGrid,
             universe: new Array(9).fill(0).map(() => new Array(9).fill(0).map(a19)),
+            getPossibilities: (universe, i) => {
+                const { x, y } = getXY(i);
+                return universe[x][y];
+            },
+            resetPossibilities: (possibilities) => {
+                for (let i = 0; i < 9; i++) {
+                    possibilities.push(i+1);
+                }
+            },
+            resetSolution: (solution, i) => {
+                const { x, y } = getXY(i);
+                solution[x][y] = 0;
+            },
+            setSolution: (solution, i, n) => {
+                const { x, y } = getXY(i);
+                solution[x][y] = n;
+            },
+            checkSolution: (solution, i) => {
+                const { x, y } = getXY(i);
+                return checkGrid(solution, x, y);
+            },
+            length: 81,
         };
         return SudokuSolver.backtracker(config);
     }
@@ -78,24 +100,26 @@ class SudokuSolver {
                 throw new Error('it seems that the backtracking cannot find a solution.');
             }
 
+            const possibilities = config.getPossibilities(universe, i);
+
             const { x, y } = getXY(i);
-            if (universe[x][y].length === 0) {
-                solution[x][y] = 0;
-                universe[x][y] = a19();
+            if (possibilities.length === 0) {
+                config.resetSolution(solution, i);
+                config.resetPossibilities(possibilities);
                 i--;
                 continue;
             }
 
-            let n = popRand(universe[x][y]);
-            solution[x][y] = n;
+            let n = popRand(possibilities);
+            config.setSolution(solution, i, n);
 
-            const status = checkGrid(solution, x, y);
+            const status = config.checkSolution(solution, i);
             if (status) {
                 i++;
             } else {
                 continue;
             }
-            if (i === 81) {
+            if (i === config.length) {
                 break;
             }
         }
