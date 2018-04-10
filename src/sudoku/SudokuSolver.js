@@ -1,27 +1,18 @@
 const a19 = () => new Array(9).fill(0).map((n, i) => i + 1);
 
-function popRand(includes) {
-    if (includes.length === 0) {
-        throw new Error('cannot pop from an empty array', includes);
+function popRand(array) {
+    if (array.length === 0) {
+        throw new Error('cannot pop from an empty array', array);
     }
-    const index = Math.floor(Math.random() * includes.length);
-    const result = includes[index];
-    includes.splice(index, 1);
+    const index = Math.floor(Math.random() * array.length);
+    const result = array[index];
+    array.splice(index, 1);
     return result;
 }
 
 function initGrid() {
     return new Array(9).fill(0).map(() => new Array(9).fill(0));
 }
-
-// function generate19rand() {
-//     const a = a19();
-//     const result = [];
-//     while (a.length) {
-//         const n = rand(a);
-
-//     }
-// }
 
 function getXY(n) {
     return {
@@ -55,12 +46,13 @@ function checkSquare(grid, x, y) {
     const n = grid[x][y];
     const i = Math.floor(x / 3);
     const j = Math.floor(y / 3);
-    const square = grid.slice(i * 3, i * 3 + 3).map(row => row.slice(j*3, j*3+3));
+    const square = grid.slice(i * 3, i * 3 + 3).map(row => row.slice(j * 3, j * 3 + 3));
     // console.log('square', square);
     square[x % 3][y % 3] = 0;
     const flat = square.reduce((acc, row) => acc.concat(row), []);
     return flat.indexOf(n) === -1;
 }
+
 
 
 
@@ -74,7 +66,6 @@ class SudokuSolver {
 
         let includes = new Array(9).fill(0).map(() => new Array(9).fill(0).map(a19));
         while (true) {
-            // console.log('i', i);
             if (i === -1) {
                 throw new Error('it seems that the backtracking cannot find a solution.');
             }
@@ -87,10 +78,9 @@ class SudokuSolver {
                 continue;
             }
 
-
             let n = popRand(includes[x][y]);
             grid[x][y] = n;
-            
+
             const status = checkGrid(grid, x, y);
             if (status) {
                 i++;
@@ -104,7 +94,7 @@ class SudokuSolver {
 
         console.log('grid', grid);
         console.timeEnd('generate');
-        
+
     }
 }
 
