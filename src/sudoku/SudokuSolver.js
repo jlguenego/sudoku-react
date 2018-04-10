@@ -51,44 +51,44 @@ function checkSquare(grid, x, y) {
     return flat.indexOf(n) === -1;
 }
 
+const config = {
+    getSolutionStructure: initGrid,
+    universe: new Array(9).fill(0).map(() => new Array(9).fill(0).map(a19)),
+    getPossibilities: (universe, i) => {
+        const { x, y } = getXY(i);
+        return universe[x][y];
+    },
+    resetPossibilities: (possibilities) => {
+        for (let i = 0; i < 9; i++) {
+            possibilities.push(i + 1);
+        }
+    },
+    resetSolution: (solution, i) => {
+        const { x, y } = getXY(i);
+        solution[x][y] = 0;
+    },
+    setSolution: (solution, i, n) => {
+        const { x, y } = getXY(i);
+        solution[x][y] = n;
+    },
+    checkSolution: (solution, i) => {
+        const { x, y } = getXY(i);
+        return checkGrid(solution, x, y);
+    },
+    pop: (possibilities) => {
+        return popRand(possibilities);
+        // return possibilities.shift();
+    },
+    strategy: 'find-first',
+    max: 2,
+    length: 81,
+};
 
 
 
 class SudokuSolver {
 
     static generate() {
-        const config = {
-            getSolutionStructure: initGrid,
-            universe: new Array(9).fill(0).map(() => new Array(9).fill(0).map(a19)),
-            getPossibilities: (universe, i) => {
-                const { x, y } = getXY(i);
-                return universe[x][y];
-            },
-            resetPossibilities: (possibilities) => {
-                for (let i = 0; i < 9; i++) {
-                    possibilities.push(i + 1);
-                }
-            },
-            resetSolution: (solution, i) => {
-                const { x, y } = getXY(i);
-                solution[x][y] = 0;
-            },
-            setSolution: (solution, i, n) => {
-                const { x, y } = getXY(i);
-                solution[x][y] = n;
-            },
-            checkSolution: (solution, i) => {
-                const { x, y } = getXY(i);
-                return checkGrid(solution, x, y);
-            },
-            pop: (possibilities) => {
-                return popRand(possibilities);
-                // return possibilities.shift();
-            },
-            strategy: 'find-first',
-            max: 2,
-            length: 81,
-        };
         return backtracker(config);
     }
 
@@ -122,39 +122,14 @@ class SudokuSolver {
             }
             return [col];
         }));
-        const config = {
-            getSolutionStructure: initGrid,
+        const config2 = {
+            ...config,
             universe,
-            getPossibilities: (universe, i) => {
-                const { x, y } = getXY(i);
-                return universe[x][y];
-            },
-            resetPossibilities: (possibilities) => {
-                for (let i = 0; i < 9; i++) {
-                    possibilities.push(i + 1);
-                }
-            },
-            resetSolution: (solution, i) => {
-                const { x, y } = getXY(i);
-                solution[x][y] = 0;
-            },
-            setSolution: (solution, i, n) => {
-                const { x, y } = getXY(i);
-                solution[x][y] = n;
-            },
-            checkSolution: (solution, i) => {
-                const { x, y } = getXY(i);
-                return checkGrid(solution, x, y);
-            },
-            pop: (possibilities) => {
-                return popRand(possibilities);
-                // return possibilities.shift();
-            },
             strategy: 'find-all',
             max: 2,
             length: 81,
         };
-        return backtracker(config).length === 1;
+        return backtracker(config2).length === 1;
     }
 
 
