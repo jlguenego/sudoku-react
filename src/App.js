@@ -50,8 +50,14 @@ const SdkCommand = props => {
   const label = props.commandMode === CommandMode.REAL ? 'REAL MODE' : 'ASSISTANT MODE';
   const otherMode = props.commandMode === CommandMode.REAL ? CommandMode.ASSISTANT : CommandMode.REAL;
 
+  let select;
+  const ref = n => {
+    select = n;
+  };
+
   function newSudoku() {
-    return props.newSudoku.bind(undefined, select.value);
+    console.log('select.value', select.value);
+    props.newSudoku(select.value);
   }
 
   return (
@@ -73,7 +79,7 @@ const SdkCommand = props => {
       </div >
       {JSON.stringify(props.errors)}
       <button onClick={console.log('click')}>Log</button>
-      <select ref={select} name="difficulty">
+      <select ref={ref} name="difficulty">
         <option value="0">Easy</option>
         <option value="1">Medium</option>
         <option value="2">Hard</option>
@@ -168,7 +174,7 @@ const mapDispatchToProps = dispatch => ({
   }),
   newSudoku: (difficulty) => dispatch({
     type: ActionType.GENERATE_NEW_SUDOKU,
-    data: {difficulty}
+    data: { difficulty }
   }),
 });
 
