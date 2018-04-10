@@ -1,3 +1,5 @@
+const backtracker = require('./backtracker');
+
 const a19 = () => new Array(9).fill(0).map((n, i) => i + 1);
 
 function popRand(array) {
@@ -19,14 +21,6 @@ function getXY(n) {
         x: Math.floor(n / 9),
         y: n % 9
     }
-}
-
-function makeRandomGrid(grid) {
-    grid.forEach((row, i) => {
-        row.forEach((n, j) => {
-            grid[i][j] = rand();
-        });
-    });
 }
 
 function checkGrid(grid, x, y) {
@@ -85,50 +79,16 @@ class SudokuSolver {
             },
             pop: (possibilities) => {
                 return popRand(possibilities);
+                // return possibilities.shift();
             },
+            strategy: 'find-first',
+            max: 2,
             length: 81,
         };
-        return SudokuSolver.backtracker(config);
+        return backtracker(config);
     }
 
-    static backtracker(config) {
-        console.time('backtracking');
-        const solution = config.getSolutionStructure();
-
-        let i = 0;
-
-        let universe = config.universe;
-        while (true) {
-            if (i === -1) {
-                throw new Error('it seems that the backtracking cannot find a solution.');
-            }
-
-            const possibilities = config.getPossibilities(universe, i);
-
-            const { x, y } = getXY(i);
-            if (possibilities.length === 0) {
-                config.resetSolution(solution, i);
-                config.resetPossibilities(possibilities);
-                i--;
-                continue;
-            }
-
-            let n = config.pop(possibilities);
-            config.setSolution(solution, i, n);
-
-            const status = config.checkSolution(solution, i);
-            if (status) {
-                i++;
-            } else {
-                continue;
-            }
-            if (i === config.length) {
-                break;
-            }
-        }
-        console.timeEnd('backtracking');
-        return solution;
-    }
+    
 }
 
 const grid = SudokuSolver.generate();
