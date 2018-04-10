@@ -67,7 +67,7 @@ const SdkCommand = props => {
         <button className={props.commandMode} onClick={props.setCommandMode.bind(undefined, otherMode)}>{label}</button>
         <button onClick={console.log('click')}>NEW SUDOKU</button >
       </div >
-
+      {JSON.stringify(props.errors)}
       <button onClick={console.log('click')}>Log</button>
       <select name="difficulty">
         <option value="0">Easy</option>
@@ -133,7 +133,7 @@ const mapStateToProps = state => {
     highlightCols: state.highlightCols.toJS(),
     highlightSquare: state.highlightSquare.toJS(),
     isHighlighting: state.isHighlighting,
-    isFinished: isFinished
+    isFinished: isFinished,
   };
 };
 
