@@ -142,44 +142,63 @@ class SudokuSolver {
         HumanSolver.removeRowDuplicate(universe);
         HumanSolver.removeColDuplicate(universe);
         HumanSolver.removeSquareDuplicate(universe);
-        console.log('universe level after', HumanSolver.getLevel(universe));        
+        console.log('universe level after', HumanSolver.getLevel(universe));
     }
 
     static btcarve(grid, total) {
+
+        let totalChecked = 0;
+
+        let carvedGrid;
         // perform a backtracking on carve.
+        const universe = new Array(total).fill(0).map(() => new Array(81).fill(0).map((n, i) => ({ row: Math.floor(i / 9), col: i % 9 })));
         const config = {
-            getSolutionStructure: JSON.parse(JSON.stringify(grid)),
-            universe: null,
+            getSolutionStructure: () => [],
+            universe,
             getPossibilities: (universe, i) => {
-                const { x, y } = getXY(i);
-                return universe[x][y];
+                return universe[i];
             },
             resetPossibilities: (possibilities, i, universeCopy) => {
-                const { x, y } = getXY(i);
-                const origPossibilities = universeCopy[x][y];
+                const origPossibilities = universeCopy[i];
                 origPossibilities.forEach(n => possibilities.push(n));
             },
             resetSolution: (solution, i) => {
-                const { x, y } = getXY(i);
-                solution[x][y] = 0;
+                solution.pop();
             },
             setSolution: (solution, i, n) => {
-                const { x, y } = getXY(i);
-                solution[x][y] = n;
+                if (solution.length === i) {
+                    solution[i - 1] = n;
+                    return;
+                }
+                if (solution.length === i - 1) {
+                    solution.push(n);
+                    return;
+                }
             },
             checkSolution: (solution, i) => {
-                const { x, y } = getXY(i);
-                return checkGrid(solution, x, y);
+                // check if the last item is not equals to an existing one.
+                const last = solution[i - 1];
+                if (solution.findIndex(p => p.row === last.row && p.col === last.col) !== i - 1) {
+                    return false;
+                }
+
+                carvedGrid = JSON.parse(JSON.stringify(grid));
+                solution.forEach(p => {
+                    carvedGrid[p.row][p.col] = 0;
+                });
+                totalChecked++;
+                return SudokuSolver.checkOneSolution(carvedGrid);
             },
             pop: (possibilities) => {
-                return popRand(possibilities);
-                // return possibilities.shift();
+                const result = popRand(possibilities);
+                return result;
             },
             strategy: 'find-first',
             length: total,
         };
-        config.universe = new Array(9).fill(0).map(() => new Array(9).fill(0).map(a19));
-        return backtracker(config);
+        const solution = backtracker(config);
+        console.log('totalChecked', totalChecked);
+        return carvedGrid;
     }
 
 

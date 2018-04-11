@@ -59,7 +59,7 @@ export function newSudoku(difficulty = DifficultyEnum.EASY) {
 
 
     const grid1 = SudokuSolver.generate();
-    const grid2 = SudokuSolver.carve(grid1, n);
+    const grid2 = SudokuSolver.btcarve(grid1, n);
 
     const solutionStr = grid1.map(n => n.join('')).join('');
     const str = grid2.map(n => n.join('')).join('');
