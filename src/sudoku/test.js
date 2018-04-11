@@ -4,7 +4,7 @@ console.time('sudoku');
 
 let grid = SudokuSolver.generate();
 console.log('grid', grid);
-grid = SudokuSolver.btcarve(grid, 10);
+grid = SudokuSolver.btcarve(grid, 51);
 console.log('grid', grid);
 
 console.timeEnd('sudoku');

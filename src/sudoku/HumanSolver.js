@@ -28,7 +28,7 @@ class HumanSolver {
     static getLevel(universe) {
         return universe.map(r => r.map(c => c.length).reduce((acc, n) => acc + n, 0)).reduce((acc, n) => acc + n, 0);
     }
-    
+
     static removeRowDuplicate(universe) {
 
         universe.forEach(row => {
@@ -47,9 +47,7 @@ class HumanSolver {
                         }
                     });
                 }
-
             });
-
         });
     }
 
@@ -57,8 +55,6 @@ class HumanSolver {
         const transposed = getTransposed(universe);
         HumanSolver.removeRowDuplicate(transposed);
     }
-
-    
 
     static removeSquareDuplicate(universe) {
         const squareList = getSquareList(universe);
