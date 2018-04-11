@@ -22,7 +22,13 @@ function getTransposed(universe) {
     return result;
 }
 
+
 class HumanSolver {
+
+    static getLevel(universe) {
+        return universe.map(r => r.map(c => c.length).reduce((acc, n) => acc + n, 0)).reduce((acc, n) => acc + n, 0);
+    }
+    
     static removeRowDuplicate(universe) {
 
         universe.forEach(row => {

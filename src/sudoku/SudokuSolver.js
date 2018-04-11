@@ -93,6 +93,7 @@ class SudokuSolver {
 
     static carve(grid, total) {
         let g;
+        let i = 0;
         while (true) {
             g = JSON.parse(JSON.stringify(grid));
             const array = new Array(81).fill(0).map((n, i) => ({ r: Math.floor(i / 9), c: i % 9 }));
@@ -103,7 +104,9 @@ class SudokuSolver {
             if (SudokuSolver.checkOneSolution(g)) {
                 break;
             }
+            i++;
         }
+        console.log('found in %d iterations', i);
         return g;
 
     }
@@ -116,7 +119,10 @@ class SudokuSolver {
             }
             return [col];
         }));
-        SudokuSolver.restrict(universe);
+        SudokuSolver.humanSolve(universe);
+        SudokuSolver.humanSolve(universe);
+        SudokuSolver.humanSolve(universe);
+        SudokuSolver.humanSolve(universe);
         const config2 = {
             ...config,
             universe,
@@ -131,10 +137,49 @@ class SudokuSolver {
         return result;
     }
 
-    static restrict(universe) {
+    static humanSolve(universe) {
+        console.log('universe level before', HumanSolver.getLevel(universe));
         HumanSolver.removeRowDuplicate(universe);
         HumanSolver.removeColDuplicate(universe);
         HumanSolver.removeSquareDuplicate(universe);
+        console.log('universe level after', HumanSolver.getLevel(universe));        
+    }
+
+    static btcarve(grid, total) {
+        // perform a backtracking on carve.
+        const config = {
+            getSolutionStructure: JSON.parse(JSON.stringify(grid)),
+            universe: null,
+            getPossibilities: (universe, i) => {
+                const { x, y } = getXY(i);
+                return universe[x][y];
+            },
+            resetPossibilities: (possibilities, i, universeCopy) => {
+                const { x, y } = getXY(i);
+                const origPossibilities = universeCopy[x][y];
+                origPossibilities.forEach(n => possibilities.push(n));
+            },
+            resetSolution: (solution, i) => {
+                const { x, y } = getXY(i);
+                solution[x][y] = 0;
+            },
+            setSolution: (solution, i, n) => {
+                const { x, y } = getXY(i);
+                solution[x][y] = n;
+            },
+            checkSolution: (solution, i) => {
+                const { x, y } = getXY(i);
+                return checkGrid(solution, x, y);
+            },
+            pop: (possibilities) => {
+                return popRand(possibilities);
+                // return possibilities.shift();
+            },
+            strategy: 'find-first',
+            length: total,
+        };
+        config.universe = new Array(9).fill(0).map(() => new Array(9).fill(0).map(a19));
+        return backtracker(config);
     }
 
 
