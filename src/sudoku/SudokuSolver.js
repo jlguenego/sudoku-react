@@ -46,7 +46,6 @@ function checkSquare(grid, x, y) {
     const i = Math.floor(x / 3);
     const j = Math.floor(y / 3);
     const square = grid.slice(i * 3, i * 3 + 3).map(row => row.slice(j * 3, j * 3 + 3));
-    // console.log('square', square);
     square[x % 3][y % 3] = 0;
     const flat = square.reduce((acc, row) => acc.concat(row), []);
     return flat.indexOf(n) === -1;
@@ -101,7 +100,6 @@ class SudokuSolver {
                 const { r, c } = popRand(array);
                 g[r][c] = 0;
             }
-            // console.log('g', g);
             if (SudokuSolver.checkOneSolution(g)) {
                 break;
             }

@@ -6,8 +6,6 @@ const SdkAtomicSquare = props => {
   const { row, col, commandValue, commandMode } = props;
   const square = props.rows[row][col];
 
-  console.log('props.isHighlighting', props.isHighlighting);
-
   const isHighlighted = props.isHighlighting &&
     (square.value > 0 || props.highlightRows[row] ||
     props.highlightCols[col] ||
@@ -17,12 +15,10 @@ const SdkAtomicSquare = props => {
     if (square.value > 0) {
       if (props.commandValue === square.value) {
         props.highlightToggle();
-        console.log('toggled');
         return;
       }
       props.setCommandValue(square.value);
       props.highlightOn();
-      console.log('On');
       return;
     }
     if (commandMode === CommandMode.REAL) {

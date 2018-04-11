@@ -56,7 +56,6 @@ const SdkCommand = props => {
   };
 
   function newSudoku() {
-    console.log('select.value', select.value);
     props.newSudoku(select.value);
   }
 
@@ -119,7 +118,6 @@ class SdkSudoku extends React.Component {
 }
 
 const Root = props => {
-  console.log('props', props);
   return (
     <React.Fragment>
       <header>Sudoku</header>
@@ -136,7 +134,6 @@ const Root = props => {
 };
 
 const mapStateToProps = state => {
-  console.log('state', state);
   const grid = getGrid(state);
   let isFinished = false;
   if (grid.map(r => r.join('')).join('').indexOf('0') === -1) {

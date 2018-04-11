@@ -6,7 +6,6 @@ const false3x3 = new Array(3).fill(new Array(3).fill(false));
 export class Highlight {
 
     constructor(state) {
-        console.log('Highlight state', state);
         this.state = state;
     }
 
@@ -31,12 +30,9 @@ export class Highlight {
             (n, i) => grid[i].find(n => n === this.state.commandValue) !== undefined);
         const highlightCols = false9.map(
             (n, i) => grid.map(row => row[i]).find(n => n === this.state.commandValue) !== undefined);
-        console.log('highlightRows', highlightRows);
-        console.log('highlightCols', highlightCols);
         const highlightSquare = false3x3.map(
             (row, i) => row.map((col, j) => isSquareContaining(grid, i, j, this.state.commandValue))
         );
-        console.log('highlightSquare', highlightSquare);
         return this.state.mergeDeep({
             highlightRows,
             highlightCols,

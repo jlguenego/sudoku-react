@@ -42,7 +42,6 @@ function checkCol(grid, data) {
 function checkSquare(grid, data) {
     const { value, row, col } = data;
     const sudokuSquare = getSquare(grid, row, col);
-    console.log('sudokuSquare', sudokuSquare);
     const result = sudokuSquare.find(row => row.find(v => v === value) !== undefined) === undefined;
     return result;
 }

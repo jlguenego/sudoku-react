@@ -35,7 +35,6 @@ function makeImmutableSudokuState(str, solutionStr) {
             rows.push(row);
         }
         const square = new Square({ value: +c, isOriginal: (+c !== 0) });
-        // console.log('square', square);
         row.push(square);
         if (j === 8) {
             j = 0;
@@ -44,7 +43,6 @@ function makeImmutableSudokuState(str, solutionStr) {
         }
     }
     const immutableRows = fromJS(rows);
-    console.log('immutableRows', immutableRows);
     return SudokuState({ rows: immutableRows, solutionStr });
 }
 
@@ -60,12 +58,8 @@ export function newSudoku(difficulty = DifficultyEnum.EASY) {
     }
 
 
-    console.log('hard', DifficultyEnum.HARD);
-    console.log('starting generating new sudoku', n, difficulty);
     const grid1 = SudokuSolver.generate();
-    console.log('carving sudoku');
     const grid2 = SudokuSolver.carve(grid1, n);
-    console.log('sudoku generated.');
 
     const solutionStr = grid1.map(n => n.join('')).join('');
     const str = grid2.map(n => n.join('')).join('');
