@@ -13,9 +13,9 @@ function popRand(array) {
     return result;
 }
 
-function rand() {
-    return Math.floor(Math.random() * 9);
-}
+// function rand() {
+//     return Math.floor(Math.random() * 9);
+// }
 
 function initGrid() {
     return new Array(9).fill(0).map(() => new Array(9).fill(0));

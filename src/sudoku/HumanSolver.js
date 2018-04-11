@@ -56,7 +56,7 @@ class HumanSolver {
 
     static removeSquareDuplicate(universe) {
         const squareList = getSquareList(universe);
-        HumanSolver.removeRowDuplicate(universe);
+        HumanSolver.removeRowDuplicate(squareList);
     }
 }
 
