@@ -51,10 +51,10 @@ export function newSudoku(difficulty = DifficultyEnum.EASY) {
     let n = 30;
 
     if (+difficulty === +DifficultyEnum.MEDIUM) {
-        n = 40;
+        n = 45;
     }
     if (+difficulty === +DifficultyEnum.HARD) {
-        n = 45;
+        n = 55;
     }
 
 

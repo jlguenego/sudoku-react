@@ -146,65 +146,65 @@ class SudokuSolver {
     }
 
     static btcarve(grid, total) {
-
-
-        let carvedGrid;
-        // perform a backtracking on carve.
-        const universe = new Array(total).fill(0).map(() => new Array(81).fill(0).map((n, i) => ({ row: Math.floor(i / 9), col: i % 9 })));
-        const config = {
-            getSolutionStructure: () => [],
-            universe,
-            getPossibilities: (universe, i) => {
-                return universe[i];
-            },
-            resetPossibilities: (possibilities, i, universeCopy) => {
-                const origPossibilities = universeCopy[i];
-                origPossibilities.forEach(n => possibilities.push(n));
-            },
-            resetSolution: (solution, i) => {
-                solution.pop();
-            },
-            setSolution: (solution, i, n) => {
-                if (solution.length === i) {
-                    solution[i - 1] = n;
-                    return;
-                }
-                if (solution.length === i - 1) {
-                    solution.push(n);
-                    return;
-                }
-            },
-            checkSolution: (solution, i) => {
-                // check if the last item is not equals to an existing one.
-                const last = solution[i - 1];
-                if (solution.findIndex(p => p.row === last.row && p.col === last.col) !== i - 1) {
-                    return false;
-                }
-
-                carvedGrid = JSON.parse(JSON.stringify(grid));
-                solution.forEach(p => {
-                    carvedGrid[p.row][p.col] = 0;
-                });
-                return SudokuSolver.checkOneSolution(carvedGrid);
-            },
-            pop: (possibilities) => {
-                const result = popRand(possibilities);
-                return result;
-            },
-            strategy: 'find-first',
-            maxIteration: 200,
-            length: total,
-        };
         while (true) {
             try {
+
+                let carvedGrid;
+                // perform a backtracking on carve.
+                const universe = new Array(total).fill(0).map(() => new Array(81).fill(0).map((n, i) => ({ row: Math.floor(i / 9), col: i % 9 })));
+                const config = {
+                    getSolutionStructure: () => [],
+                    universe,
+                    getPossibilities: (universe, i) => {
+                        return universe[i];
+                    },
+                    resetPossibilities: (possibilities, i, universeCopy) => {
+                        const origPossibilities = universeCopy[i];
+                        origPossibilities.forEach(n => possibilities.push(n));
+                    },
+                    resetSolution: (solution, i) => {
+                        solution.pop();
+                    },
+                    setSolution: (solution, i, n) => {
+                        if (solution.length === i) {
+                            solution[i - 1] = n;
+                            return;
+                        }
+                        if (solution.length === i - 1) {
+                            solution.push(n);
+                            return;
+                        }
+                    },
+                    checkSolution: (solution, i) => {
+                        // check if the last item is not equals to an existing one.
+                        const last = solution[i - 1];
+                        if (solution.findIndex(p => p.row === last.row && p.col === last.col) !== i - 1) {
+                            return false;
+                        }
+
+                        carvedGrid = JSON.parse(JSON.stringify(grid));
+                        solution.forEach(p => {
+                            carvedGrid[p.row][p.col] = 0;
+                        });
+                        return SudokuSolver.checkOneSolution(carvedGrid);
+                    },
+                    pop: (possibilities) => {
+                        const result = popRand(possibilities);
+                        return result;
+                    },
+                    strategy: 'find-first',
+                    maxIteration: 200,
+                    length: total,
+                };
+
                 let solution = backtracker(config);
                 return carvedGrid;
             } catch (e) {
                 console.log('e', e.message)
             }
-            
+
         }
-        
+
     }
 
 
