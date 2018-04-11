@@ -138,16 +138,15 @@ class SudokuSolver {
     }
 
     static humanSolve(universe) {
-        console.log('universe level before', HumanSolver.getLevel(universe));
+        // console.log('universe level before', HumanSolver.getLevel(universe));
         HumanSolver.removeRowDuplicate(universe);
         HumanSolver.removeColDuplicate(universe);
         HumanSolver.removeSquareDuplicate(universe);
-        console.log('universe level after', HumanSolver.getLevel(universe));
+        // console.log('universe level after', HumanSolver.getLevel(universe));
     }
 
     static btcarve(grid, total) {
 
-        let totalChecked = 0;
 
         let carvedGrid;
         // perform a backtracking on carve.
@@ -186,7 +185,6 @@ class SudokuSolver {
                 solution.forEach(p => {
                     carvedGrid[p.row][p.col] = 0;
                 });
-                totalChecked++;
                 return SudokuSolver.checkOneSolution(carvedGrid);
             },
             pop: (possibilities) => {
@@ -194,11 +192,19 @@ class SudokuSolver {
                 return result;
             },
             strategy: 'find-first',
+            maxIteration: 200,
             length: total,
         };
-        const solution = backtracker(config);
-        console.log('totalChecked', totalChecked);
-        return carvedGrid;
+        while (true) {
+            try {
+                let solution = backtracker(config);
+                return carvedGrid;
+            } catch (e) {
+                console.log('e', e.message)
+            }
+            
+        }
+        
     }
 
 

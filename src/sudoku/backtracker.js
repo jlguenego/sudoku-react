@@ -2,11 +2,17 @@ module.exports = function backtracker(config) {
     const solutions = [];
     const solution = config.getSolutionStructure();
 
+    let iterationId = 0;
+
     let i = 0;
 
     let universe = config.universe;
     let universeCopy = JSON.parse(JSON.stringify(config.universe));
     while (true) {
+        iterationId++;
+        if (config.maxIteration > 0 && iterationId > config.maxIteration) {
+            throw new Error('maxIteration reached.');
+        }
         if (i === -1) {
             if (config.strategy === 'find-all') {
                 break;
