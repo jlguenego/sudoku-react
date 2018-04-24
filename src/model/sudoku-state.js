@@ -1,4 +1,4 @@
-import SudokuSolver from '../sudoku/SudokuSolver';
+import { SudokuSolver } from '@jlguenego/sudoku-generator';
 
 import { Square } from "./square";
 import { CommandMode } from "../model/command-mode";
